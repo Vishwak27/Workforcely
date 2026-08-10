@@ -1,0 +1,78 @@
+[
+  {
+    "model": "departments.department",
+    "pk": 1,
+    "fields": {
+      "department_name": "IT",
+      "location": "Building A - Floor 4"
+    }
+  },
+  {
+    "model": "departments.department",
+    "pk": 2,
+    "fields": {
+      "department_name": "HR",
+      "location": "Building B - Floor 1"
+    }
+  },
+  {
+    "model": "departments.department",
+    "pk": 3,
+    "fields": {
+      "department_name": "Finance",
+      "location": "Building A - Floor 2"
+    }
+  },
+  {
+    "model": "departments.department",
+    "pk": 4,
+    "fields": {
+      "department_name": "Operations",
+      "location": "Building C - Ground Floor"
+    }
+  },
+  {
+    "model": "employees.employee",
+    "pk": 1,
+    "fields": {
+      "employee_name": "Arun Kumar",
+      "email": "arun.kumar@company.com",
+      "salary": "95000.00",
+      "experience": 6,
+      "department": 1
+    }
+  },
+  {
+    "model": "employees.employee",
+    "pk": 2,
+    "fields": {
+      "employee_name": "John Doe",
+      "email": "john.doe@company.com",
+      "salary": "62000.00",
+      "experience": 3,
+      "department": 2
+    }
+  },
+  {
+    "model": "employees.employee",
+    "pk": 3,
+    "fields": {
+      "employee_name": "Priya Sharma",
+      "email": "priya.sharma@company.com",
+      "salary": "88000.00",
+      "experience": 5,
+      "department": 3
+    }
+  },
+  {
+    "model": "employees.employee",
+    "pk": 4,
+    "fields": {
+      "employee_name": "Rahul Verma",
+      "email": "rahul.verma@company.com",
+      "salary": "71000.00",
+      "experience": 4,
+      "department": 4
+    }
+  }
+]

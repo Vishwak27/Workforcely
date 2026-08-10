@@ -1,0 +1,41 @@
+<div id="department-table-container">
+    <div class="overflow-x-auto bg-surface border border-border rounded-xl shadow-sm">
+        <table class="min-w-full divide-y divide-border text-sm">
+            <thead class="bg-surface font-medium text-text-secondary uppercase text-xs tracking-wider">
+                <tr>
+                    <th class="px-6 py-3.5 text-left">Department Name</th>
+                    <th class="px-6 py-3.5 text-left">Location</th>
+                    <th class="px-6 py-3.5 text-left">Total Employees</th>
+                    <th class="px-6 py-3.5 text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-border bg-base">
+                {% for dept in departments %}
+                <tr id="department-row-{{ dept.id }}" class="hover:bg-surface-hover transition">
+                    <td class="px-6 py-4 font-semibold text-text-primary">{{ dept.department_name }}</td>
+                    <td class="px-6 py-4 text-text-secondary">{{ dept.location }}</td>
+                    <td class="px-6 py-4">
+                        <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-500/10 text-success border border-emerald-500/20">
+                            {{ dept.employees.count }} employees
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-right space-x-2">
+                        <button hx-get="{% url 'department-edit-form' dept.id %}"
+                                hx-target="#modal-container"
+                                class="text-accent hover:text-accent-hover font-medium">Edit</button>
+                        <button hx-delete="{% url 'department-delete' dept.id %}"
+                                hx-confirm="Are you sure you want to delete {{ dept.department_name }}?"
+                                hx-target="#department-row-{{ dept.id }}"
+                                hx-swap="outerHTML swap:0.2s"
+                                class="text-danger hover:text-red-400 font-medium">Delete</button>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="px-6 py-8 text-center text-text-muted">No departments configured yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

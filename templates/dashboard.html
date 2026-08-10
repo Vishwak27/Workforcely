@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard — Workforcely{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <div>
+        <h1 class="text-2xl font-bold text-text-primary">System Dashboard</h1>
+        <p class="text-sm text-text-secondary mt-1">Overview of active workforce and departmental structure.</p>
+    </div>
+
+    <!-- Live HTMX Stat Cards -->
+    <div hx-get="{% url 'dashboard-stats-partial' %}" hx-trigger="load" hx-indicator="#global-spinner">
+        <div class="animate-pulse flex space-x-4">
+            <div class="h-24 bg-surface rounded-xl w-full border border-border"></div>
+            <div class="h-24 bg-surface rounded-xl w-full border border-border"></div>
+        </div>
+    </div>
+
+    <!-- Quick Navigation Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+        <a href="{% url 'employee-list' %}" class="group p-6 bg-surface border border-border rounded-xl hover:bg-surface-hover hover:border-accent/40 transition duration-150">
+            <h3 class="text-lg font-semibold text-text-primary group-hover:text-accent flex items-center justify-between">
+                <span>Manage Employees</span>
+                <span class="text-text-muted group-hover:text-accent transition">→</span>
+            </h3>
+            <p class="text-sm text-text-secondary mt-2">Filter, search, add, edit, and adjust salary records for all employees.</p>
+        </a>
+
+        <a href="{% url 'department-list' %}" class="group p-6 bg-surface border border-border rounded-xl hover:bg-surface-hover hover:border-accent/40 transition duration-150">
+            <h3 class="text-lg font-semibold text-text-primary group-hover:text-accent flex items-center justify-between">
+                <span>Manage Departments</span>
+                <span class="text-text-muted group-hover:text-accent transition">→</span>
+            </h3>
+            <p class="text-sm text-text-secondary mt-2">Create new departments, update locations, and review team allocations.</p>
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+<div id="employee-table-container">
+    <div class="overflow-x-auto bg-surface border border-border rounded-xl shadow-sm">
+        <table class="min-w-full divide-y divide-border text-sm">
+            <thead class="bg-surface font-medium text-text-secondary uppercase text-xs tracking-wider">
+                <tr>
+                    <th class="px-6 py-3.5 text-left">Employee Name</th>
+                    <th class="px-6 py-3.5 text-left">Email</th>
+                    <th class="px-6 py-3.5 text-left">Department</th>
+                    <th class="px-6 py-3.5 text-left">Experience</th>
+                    <th class="px-6 py-3.5 text-left">
+                        <button hx-get="{% url 'employee-table-partial' %}?ordering={% if ordering == 'salary' %}-salary{% else %}salary{% endif %}&department={{ selected_department }}&search={{ search_query }}"
+                                hx-target="#employee-table-container"
+                                class="flex items-center space-x-1 hover:text-text-primary">
+                            <span>Salary</span>
+                            <span>{% if ordering == 'salary' %}↑{% else %}↓{% endif %}</span>
+                        </button>
+                    </th>
+                    <th class="px-6 py-3.5 text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-border bg-base">
+                {% for emp in page_obj %}
+                <tr id="employee-row-{{ emp.id }}" class="hover:bg-surface-hover transition">
+                    <td class="px-6 py-4 font-semibold text-text-primary">{{ emp.employee_name }}</td>
+                    <td class="px-6 py-4 text-text-secondary">{{ emp.email }}</td>
+                    <td class="px-6 py-4">
+                        <span class="px-2.5 py-1 text-xs font-semibold rounded-full bg-muted-accent/20 text-text-primary border border-muted-accent/30">
+                            {{ emp.department.department_name }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-text-secondary">{{ emp.experience }} yrs</td>
+                    <td class="px-6 py-4 font-mono font-medium text-text-primary">₹{{ emp.salary }}</td>
+                    <td class="px-6 py-4 text-right space-x-2">
+                        <button hx-get="{% url 'employee-edit-form' emp.id %}"
+                                hx-target="#modal-container"
+                                class="text-accent hover:text-accent-hover font-medium">Edit</button>
+                        <button hx-delete="{% url 'employee-delete' emp.id %}"
+                                hx-confirm="Are you sure you want to delete {{ emp.employee_name }}?"
+                                hx-target="#employee-row-{{ emp.id }}"
+                                hx-swap="outerHTML swap:0.2s"
+                                class="text-danger hover:text-red-400 font-medium">Delete</button>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="px-6 py-8 text-center text-text-muted">No employees found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination Controls -->
+    {% if page_obj.has_other_pages %}
+    <div class="flex items-center justify-between mt-4">
+        <span class="text-sm text-text-secondary">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+        <div class="inline-flex space-x-2">
+            {% if page_obj.has_previous %}
+            <button hx-get="{% url 'employee-table-partial' %}?page={{ page_obj.previous_page_number }}&department={{ selected_department }}&search={{ search_query }}&ordering={{ ordering }}"
+                    hx-target="#employee-table-container"
+                    class="px-3 py-1.5 border border-muted-accent text-text-secondary rounded-lg text-sm bg-transparent hover:bg-muted-accent/15 hover:text-text-primary">Previous</button>
+            {% endif %}
+            {% if page_obj.has_next %}
+            <button hx-get="{% url 'employee-table-partial' %}?page={{ page_obj.next_page_number }}&department={{ selected_department }}&search={{ search_query }}&ordering={{ ordering }}"
+                    hx-target="#employee-table-container"
+                    class="px-3 py-1.5 border border-muted-accent text-text-secondary rounded-lg text-sm bg-transparent hover:bg-muted-accent/15 hover:text-text-primary">Next</button>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>

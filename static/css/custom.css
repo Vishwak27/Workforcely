@@ -1,0 +1,37 @@
+:root {
+  /* Neutral base — charcoal backdrop matching the Turtle palette presentation */
+  --bg-base:         #1A1B1F;
+  --bg-surface:      #212226;
+  --bg-surface-hover:#2A2B30;
+  --bg-elevated:     #2E2F35;
+
+  --border-subtle:   #34353B;
+  --border-focus:    #39AEA9;
+
+  /* Text */
+  --text-primary:    #F2F3F0;
+  --text-secondary:  #A8ACA6;
+  --text-muted:      #6E726C;
+
+  /* Turtle palette */
+  --accent:          #39AEA9;   /* Teal primary brand color */
+  --accent-hover:    #2F928E;
+  --accent-soft-bg:  rgba(57, 174, 169, 0.14);
+
+  --success:         #A2D5AB;   /* Sage green */
+  --success-soft-bg: rgba(162, 213, 171, 0.14);
+
+  --highlight:       #E5EFC1;   /* Pale lime */
+  --muted-accent:    #557B83;   /* Slate blue-gray */
+
+  --danger:          #E88686;
+  --danger-soft-bg:  rgba(232, 134, 134, 0.14);
+}
+
+.htmx-indicator {
+    display: none;
+}
+.htmx-request .htmx-indicator,
+.htmx-request.htmx-indicator {
+    display: inline-block;
+}

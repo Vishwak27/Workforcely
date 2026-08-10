@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Employees — Workforcely{% endblock %}
+
+{% block content %}
+<div class="space-y-6" hx-on="employeeChanged: htmx.trigger('#search-input', 'keyup'); document.getElementById('modal-container').innerHTML=''">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-text-primary">Employee Directory</h1>
+            <p class="text-sm text-text-secondary">Manage company staff records and department assignments.</p>
+        </div>
+        <button hx-get="{% url 'employee-create-form' %}"
+                hx-target="#modal-container"
+                class="px-4 py-2.5 bg-accent hover:bg-accent-hover text-[#0B1210] font-semibold text-sm rounded-lg shadow-sm flex items-center justify-center space-x-2 transition">
+            <span>+ Add Employee</span>
+        </button>
+    </div>
+
+    <!-- Filter & Search Controls -->
+    <div class="bg-surface p-4 rounded-xl border border-border shadow-sm flex flex-col md:flex-row gap-4 justify-between">
+        <div class="flex-1">
+            <input type="text"
+                   id="search-input"
+                   name="search"
+                   placeholder="Search by employee name or email..."
+                   hx-get="{% url 'employee-table-partial' %}"
+                   hx-trigger="keyup changed delay:400ms"
+                   hx-target="#employee-table-container"
+                   hx-include="#department-select"
+                   class="w-full rounded-lg bg-elevated border border-border px-4 py-2 text-sm text-text-primary placeholder-text-muted focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent">
+        </div>
+        <div class="w-full md:w-64">
+            <select id="department-select"
+                    name="department"
+                    hx-get="{% url 'employee-table-partial' %}"
+                    hx-trigger="change"
+                    hx-target="#employee-table-container"
+                    hx-include="#search-input"
+                    class="w-full rounded-lg bg-elevated border border-border px-4 py-2 text-sm text-text-primary focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent">
+                <option value="">All Departments</option>
+                {% for dept in departments %}
+                <option value="{{ dept.id }}">{{ dept.department_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <!-- Employee Table Section -->
+    <div hx-get="{% url 'employee-table-partial' %}" hx-trigger="load" id="employee-table-container">
+        <div class="animate-pulse space-y-2">
+            <div class="h-10 bg-surface rounded-lg border border-border"></div>
+            <div class="h-12 bg-surface rounded-lg border border-border"></div>
+            <div class="h-12 bg-surface rounded-lg border border-border"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

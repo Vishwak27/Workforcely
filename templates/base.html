@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Employee Management System{% endblock %}</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              base: '#1A1B1F',
+              surface: '#212226',
+              'surface-hover': '#2A2B30',
+              elevated: '#2E2F35',
+              border: '#34353B',
+              'text-primary': '#F2F3F0',
+              'text-secondary': '#A8ACA6',
+              'text-muted': '#6E726C',
+              accent: '#39AEA9',
+              'accent-hover': '#2F928E',
+              success: '#A2D5AB',
+              highlight: '#E5EFC1',
+              'muted-accent': '#557B83',
+              danger: '#E88686',
+            }
+          }
+        }
+      }
+    </script>
+    <!-- HTMX CDN -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <link rel="stylesheet" href="/static/css/custom.css">
+</head>
+<body class="bg-base text-text-primary font-sans min-h-screen flex flex-col" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-surface border-b border-border sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center space-x-8">
+                    <a href="{% url 'dashboard' %}" class="flex items-center space-x-2 text-accent font-bold text-xl tracking-tight">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                        <span>Workforcely</span>
+                    </a>
+                    <div class="hidden sm:flex sm:space-x-4">
+                        <a href="{% url 'dashboard' %}" class="px-3 py-2 rounded-md text-sm font-medium {% if request.path == '/' or request.resolver_match.url_name == 'dashboard' %}text-accent font-semibold border-b-2 border-accent bg-accent/10{% else %}text-text-secondary hover:text-text-primary hover:bg-surface-hover transition{% endif %}">Dashboard</a>
+                        <a href="{% url 'employee-list' %}" class="px-3 py-2 rounded-md text-sm font-medium {% if 'employee' in request.path or 'employee' in request.resolver_match.url_name %}text-accent font-semibold border-b-2 border-accent bg-accent/10{% else %}text-text-secondary hover:text-text-primary hover:bg-surface-hover transition{% endif %}">Employees</a>
+                        <a href="{% url 'department-list' %}" class="px-3 py-2 rounded-md text-sm font-medium {% if 'department' in request.path or 'department' in request.resolver_match.url_name %}text-accent font-semibold border-b-2 border-accent bg-accent/10{% else %}text-text-secondary hover:text-text-primary hover:bg-surface-hover transition{% endif %}">Departments</a>
+                        <a href="/api/schema/swagger-ui/" target="_blank" class="px-3 py-2 rounded-md text-sm font-medium text-accent bg-teal-500/10 hover:bg-teal-500/20 transition">API Docs ↗</a>
+                    </div>
+                </div>
+
+                <!-- Global Spinner Indicator -->
+                <div class="flex items-center space-x-2">
+                    <div id="global-spinner" class="htmx-indicator flex items-center text-sm text-accent font-medium space-x-2">
+                        <svg class="animate-spin h-5 w-5 text-accent" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span>Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Toast Notification Area -->
+        <div id="toast-container" class="mb-4"></div>
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Global Modal Container -->
+    <div id="modal-container"></div>
+</body>
+</html>

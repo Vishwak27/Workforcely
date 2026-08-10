@@ -1,0 +1,17 @@
+# Virtual Environments
+venv/
+.venv/
+
+# Environment & Database
+.env
+db.sqlite3
+.pytest_cache/
+__pycache__/
+*.pyc
+
+# Prompt & Design Documentation Files (ignored per instructions)
+employee_management_spec.md
+dark_theme_ui_prompt.md
+turtle_theme_ui_prompt.md
+staffpulse_test_plan.md
+docs/
